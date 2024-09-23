@@ -5,7 +5,7 @@ echo "Actualizando lista de paquetes..."
 sudo apt update
 #
 # Instalar los programas
-sudo apt install -y vim htop vim fail2ban snmpd ufw
+sudo apt install -y vim htop vim fail2ban snmpd ufw openssh-server
 #
 echo "Limpieza de paquetes innecesarios..."
 sudo apt autoremove -y
