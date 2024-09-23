@@ -1,0 +1,25 @@
+[DEFAULT]
+#
+# MISCELLANEOUS OPTIONS
+#
+# permite usar la base de datos para buscar ip's previamente prohibidas para aumentar un
+# tiempo de ban por defecto usando fórmula especial, por defecto es banTime * 1, 2, 4, 8, 16...
+bantime.increment = true
+#
+# coeficiente para calcular el crecimiento exponencial de la fórmula o multiplicador común,
+# el valor predeterminado del factor es 1 y con el valor predeterminado de la fórmula,
+# el tiempo de prohibición aunmenta en 1, 2, 4, 8, 16...
+bantime.factor = 1
+#
+# Ignorar IPS para poder acceder de forma segura
+ignoreip = 127.0.0.1/8  ::1
+#
+# cantidad de segundos que un host es baneado.
+bantime = 10m
+#
+# Un host está prohibido si ha intentado el ataque durante los últimos segundos.
+findtime = 15m
+#
+# Se debe hacer en el jail.conf para aplicar las reglas en el firewall correcto.
+# banaction = ufw #para uso de Debian, Ubuntu
+# banaction = firewallcmd-ipset #para uso de CentOS, Rocky linux, Alma Linux
