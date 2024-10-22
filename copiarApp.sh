@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#Copiado de SNMD
+#Copiado de SNMP
 cp ./snmpd/* /etc/snmp/snmpd.conf.d/
 echo "Copiado de SNMP de forma correcta..."
 #
