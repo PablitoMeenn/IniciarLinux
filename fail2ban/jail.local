@@ -2,8 +2,8 @@
 # MISCELLANEOUS OPTIONS
 #
 # Configuracion de correo.
-destemail = fail2ban@melacorneta.cl
-sender = meenn@melacorneta.cl
+#destemail = fail2ban@melacorneta.cl
+#sender = meenn@melacorneta.cl
 #
 #
 # permite usar la base de datos para buscar ip's previamente prohibidas para aumentar un
@@ -25,5 +25,8 @@ bantime = 10m
 findtime = 15m
 #
 # Se debe hacer en el jail.conf para aplicar las reglas en el firewall correcto.
-# banaction = ufw #para uso de Debian, Ubuntu
-# banaction = firewallcmd-ipset #para uso de CentOS, Rocky linux, Alma Linux
+# banaction = ufw ### para uso de Debian, Ubuntu
+# banaction = firewallcmd-ipset ### para uso de CentOS, Rocky linux, Alma Linux
+# banaction = nftables ### para uso de nftables
+# banaction_allports = nftables[type=allports] ### para uso de nftables
+# backend = systemd ### para uso de nftables
