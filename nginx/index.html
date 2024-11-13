@@ -1,146 +1,135 @@
 <!DOCTYPE html>
 <html lang="es">
  <head>
-	<meta charset="utf-8">
-   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="icono.ico" type="image/x-icon"/>
-<title>NGINX by HOLOGRAMA</title>
-<style>
-    body {
-        width: 35em;
-        margin: 0 auto;
-        font-family: Tahoma, Verdana, Arial, sans-serif;
-    }
-</style>
+	<link rel="icon" href="/image/icono.ico" type="image/x-icon">
+   	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>NGINX by HOLOGRAMA</title>
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="fonts/fonts.css"> 
+
+
  </head>
+
 <body>
-  <h1>Bienvenido a nginx!</h1>
-  <p>Si ve esta página, el servidor web nginx se instaló correctamente y funciona.
-  <em>Estas conectado a mi Notebook y vez mi sitio web de Prueba usando nginx.</em></p>
-  
-     <h2>Información de tu IP</h2>
-    <div id="ip-info">
-        Calmado... esta Cargando información...
-    </div>
+  <h1 class="titulo">Bienvenido a nginx!</h1>
+  <div>
+  <p class="parrafo">Si ve esta página, el servidor web nginx se instaló correctamente y funciona. Estas conectado a mi Notebook y vez mi sitio web de Prueba usando nginx.</p>
+  </div>
+
+
+
+<h2>Información de tu IP</h2>
+<div id="ip-info">
+	Calmado... esta Cargando información...
+</div>
+
+<!--
 <script>
-    // Hacer una solicitud a la API para obtener la información de la IP
-    fetch('http://ip-api.com/json')
-    .then(response => response.json())
-    .then(data => {
-        // Mostrar la información de la IP en el sitio web
-        const infoDiv = document.getElementById('ip-info');
-        infoDiv.innerHTML = `
-            <p><strong>IP:</strong> ${data.query}</p>
-            <p><strong>Estado:</strong> ${data.status}</p>
-            <p><strong>Continente:</strong> ${data.continent}</p>
-            <p><strong>Código del Continente:</strong> ${data.continentCode}</p>
-            <p><strong>País:</strong> ${data.country}</p>
-            <p><strong>Código del País:</strong> ${data.countryCode}</p>
-            <p><strong>Región:</strong> ${data.regionName}</p>
-            <p><strong>Código de la Región:</strong> ${data.region}</p>
-            <p><strong>Ciudad:</strong> ${data.city}</p>
-            <p><strong>Distrito:</strong> ${data.district}</p>
-            <p><strong>Código Postal:</strong> ${data.zip}</p>
-            <p><strong>Latitud:</strong> ${data.lat}</p>
-            <p><strong>Longitud:</strong> ${data.lon}</p>
-            <p><strong>Zona Horaria:</strong> ${data.timezone}</p>
-            <p><strong>Diferencia Horaria (UTC):</strong> ${data.offset}</p>
-            <p><strong>Moneda:</strong> ${data.currency}</p>
-            <p><strong>ISP:</strong> ${data.isp}</p>
-            <p><strong>Organización:</strong> ${data.org}</p>
-            <p><strong>Sistema Autónomo:</strong> ${data.as}</p>
-            <p><strong>Nombre del Sistema Autónomo:</strong> ${data.asname}</p>
-            <p><strong>Móvil:</strong> ${data.mobile ? 'Sí' : 'No'}</p>
-            <p><strong>Proxy:</strong> ${data.proxy ? 'Sí' : 'No'}</p>
-            <p><strong>Hosting:</strong> ${data.hosting ? 'Sí' : 'No'}</p>
-        `;
-    })
-    .catch(error => {
-        console.error('Error al obtener la información de la IP:', error);
-        document.getElementById('ip-info').textContent = 'Error, no Cargo Nada.';
-    });
+// Hacer una solicitud a la API para obtener la información de la IP
+fetch('http://ip-api.com/json')
+.then(response => response.json())
+.then(data => {
+	// Mostrar la información de la IP en el sitio web
+	const infoDiv = document.getElementById('ip-info');
+	infoDiv.innerHTML = `
+	<ul>
+		<li>IP: ${data.query}</li>
+		<li>Estado: ${data.status}</li>
+		<li>Continente: ${data.continent}</li>
+		<li>Código del Continente: ${data.continentCode}</li>
+		<li>País: ${data.country}</li>
+		<li>Código del País: ${data.countryCode}</li>
+		<li>Región: ${data.regionName}</li>
+		<li>Código de la Región: ${data.region}</li>
+		<li>Ciudad: ${data.city}</li>
+		<li>Distrito: ${data.district}</li>
+		<li>Código Postal: ${data.zip}</li>
+		<li>Latitud: ${data.lat}</li>
+		<li>Longitud: ${data.lon}</li>
+		<li>Zona Horaria: ${data.timezone}</li>
+		<li>Diferencia Horaria (UTC): ${data.offset}</li>
+		<li>Moneda: ${data.currency}</li>
+		<li>ISP: ${data.isp}</li>
+		<li>Organización: ${data.org}</li>
+		<li>Sistema Autónomo: ${data.as}</li>
+		<li>Nombre del Sistema Autónomo: ${data.asname}</li>
+		<li>Móvil: ${data.mobile ? 'Sí' : 'No'}</li>
+		<li>Proxy: ${data.proxy ? 'Sí' : 'No'}</li>
+		<li>Hosting: ${data.hosting ? 'Sí' : 'No'}</li>
+	</ul>
+		`;
+})
+.catch(error => {
+	console.error('Error al obtener la información de la IP:', error);
+	document.getElementById('ip-info').textContent = 'Error, no Cargo Nada.';
+});
 </script>
+
+
+33.720  a las 0943 minutis
+-->
+ 
 
 <h2>Monitoreo de bloqueo Fail2ban</h2>
-<a href="https://www.abuseipdb.com/user/91919" title="AbuseIPDB is an IP address blacklist">
-	<img src="https://www.abuseipdb.com/contributor/91919.svg"
-	     alt="AbuseIPDB Contributor Badge"
-	     style="width: 493px;
-       border-radius: 5px;
-       border-top: 5px solid #058403;
-       border-right: 5px solid #111;
-       border-bottom: 5px solid #111;
-       border-left: 5px solid #058403;
-       padding: 5px;
-       background: #35c246 linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.3) 50%, rgba(0,0,0,.2) 51%, rgba(0,0,0,0));
-       padding: 5px;box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, .2);
-       ">
-</a>  
-
-<center>
-	<p><b>¿Cuánto falta para el Año Nuevo?</b></p>
-</center>
-<div id="countdown">
-  <div class="countdown-item countdown-item-days">
-  <div class="countdown-number"></div>
-  <div class="countdown-item-label">Días</div>
-</div>
-  <div class="countdown-item countdown-item-hours">
-  <div class="countdown-number"></div>
-  <div class="countdown-item-label">Horas</div>
-</div>
-  <div class="countdown-item countdown-item-minutes">
-  <div class="countdown-number"></div>
-  <div class="countdown-item-label">Minutos</div>
-</div>
-  <div class="countdown-item countdown-item-seconds">
-  <div class="countdown-number"></div>
-  <div class="countdown-item-label">Segundos</div>
+<div class="abuse">
+<a href="https://www.abuseipdb.com/user/91919" title="AbuseIPDB is an IP address blacklist for webmasters">
+	<img src="https://www.abuseipdb.com/contributor/91919.svg">
+</a>
 </div>
 
-<script type="text/javascript"
-        src="//acortar.org/gen-js">
+<!--Contador de cuenta regresiva-->
+<div class="countdown-container">
+	<div class="countdown">
+		<div class="countdown-item">
+			<span id="days" class="countdown-value">00</span>
+			<span class="countdown-label">Días</span>
+		</div>
+		<div class="countdown-item">
+			<span id="hours" class="countdown-value">00</span>
+			<span class="countdown-label">Horas</span>
+		</div>
+		<div class="countdown-item">
+			<span id="minutes" class="countdown-value">00</span>
+			<span class="countdown-label">Minutos</span>
+		</div>
+		<div class="countdown-item">
+			<span id="seconds" class="countdown-value">00</span>
+			<span class="countdown-label">Segundos</span>
+		</div>
+	</div>
+</div>
+
+<!--Script de cuenta regresiva-->
+<script>
+	function updateCountdown() {
+		const targetDate = new Date('02 19, 2025 00:00:00').getTime();
+		
+		function update() {
+			const now = new Date().getTime();
+			const difference = targetDate - now;
+
+			const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+			const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+			const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+			document.getElementById('days').textContent = days.toString().padStart(2, '0');
+			document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+			document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+			document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+			if (difference < 0) {
+				clearInterval(interval);
+				document.querySelector('.countdown').innerHTML = '<h2 style="color: white;">¡Tiempo cumplido!</h2>';
+			}
+		}
+
+		const interval = setInterval(update, 1000);
+		update();
+	}
+	document.addEventListener('DOMContentLoaded', updateCountdown);
 </script>
-<script>const targetDate=new Date('January 1, 2025 00:00:00').getTime();
-  setInterval(()=>{
-	const now=new Date().getTime();
-	const difference=targetDate-now;
-	const days=Math.floor(difference/(1000*60*60*24));
-	const hours=Math.floor((difference%(1000*60*60*24))/(1000*60*60));
-	const minutes=Math.floor((difference%(1000*60*60))/(1000*60));
-	const seconds=Math.floor((difference%(1000*60))/1000);
-	document.querySelector('.countdown-item-days .countdown-number').textContent=days;
-	document.querySelector('.countdown-item-hours .countdown-number').textContent=hours;
-	document.querySelector('.countdown-item-minutes .countdown-number').textContent=minutes;
-	document.querySelector('.countdown-item-seconds .countdown-number').textContent=seconds},1000);
-</script>
-<style>
-	countdown{
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	font-size:48px;
-	text-align:center;
-	margin-top:20px;
-	color:#fff
-}
-  .countdown-item{
-	display:inline-block;
-	margin-right:20px;
-	font-size:36px;
-	background-color:#2196f3;
-	border-radius:10px;
-	padding:10px;
-	color:#fff;
-	box-shadow:0 0 10px 0 rgba(0, 0, 0, 0.2)
-}
-  .countdown-item-label{
-	font-size:18px;
-	margin-top:5px;
-	color:#fff}
-  .countdown-item-days .countdown-item-label{
-	display:block
-}
-</style>
 </body>
 </html>
