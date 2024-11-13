@@ -1,6 +1,11 @@
 [DEFAULT]
 # MISCELLANEOUS OPTIONS
 #
+# Configuracion de correo.
+destemail = fail2ban@melacorneta.cl
+sender = meenn@melacorneta.cl
+#
+#
 # permite usar la base de datos para buscar ip's previamente prohibidas para aumentar un
 # tiempo de ban por defecto usando fórmula especial, por defecto es banTime * 1, 2, 4, 8, 16...
 bantime.increment = true
