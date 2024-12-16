@@ -26,6 +26,7 @@ echo "Copiado configuracion de SSH de forma correcta..."
 echo
 #
 #Copiando nginx de sitio web
+rm -r /var/www/html/*
 cp -r ./nginx/* /var/www/html
 echo
 echo "copiado Archivos de html"
