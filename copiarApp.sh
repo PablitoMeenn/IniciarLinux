@@ -8,6 +8,7 @@ echo
 #
 #Copiado de Fail2ban
 cp ./fail2ban/* /etc/fail2ban/
+mv /etc/fail-* /etc/fail2ban/jail.d/
 echo
 echo "Copiado de JAIL de forma correcta..."
 echo
