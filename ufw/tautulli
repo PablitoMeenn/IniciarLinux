@@ -1,0 +1,4 @@
+[tautulli]
+title=tautulli
+description=A python based web application for monitoring, analytics and notifications for Plex Media Server.
+ports=8181/tcp
