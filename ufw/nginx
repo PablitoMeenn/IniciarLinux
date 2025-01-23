@@ -1,4 +1,0 @@
-[Nginx Full]
-title=Web Server (Nginx, HTTP + HTTPS)
-description= habilitar sitio web
-ports=80,443/tcp

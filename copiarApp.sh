@@ -32,3 +32,13 @@ cp -r ./nginx/* /var/www/html
 echo
 echo "copiado Archivos de html"
 echo
+#Copiado de Alias en Home
+echo
+cp ./home/.bash_aliases $HOME
+echo "Copiado de Alias de forma correcta..."
+echo
+#Activacion de log de UFW
+echo
+ufw logging medium
+echo
+echo "Activacion de log de UFW de forma correcta..."

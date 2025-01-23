@@ -1,4 +1,4 @@
 [transmission]
 title=Transmission
 description=Transmission BitTorrent client
-ports=51413
+ports=51413|9091/tcp
