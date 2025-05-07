@@ -24,6 +24,8 @@ echo
 #Copiado de SSH
 cp ./ssh/ssh-servidor.conf /etc/ssh/sshd_config.d/
 cp ./ssh/banner /etc/ssh/
+touch $HOME/.ssh/config
+chmod 600 $HOME/.ssh/config
 echo
 echo "Copiado configuracion de SSH de forma correcta..."
 echo
@@ -43,6 +45,10 @@ echo
 echo
 ufw logging medium
 ufw status enable
-ufw allow "nginx full"
+ufw allow iperf3
+ufw allow nginx
+ufw allow openssh
+ufw allow snmp
+ufw allow samba
 echo
 echo "Activacion de log de UFW de forma correcta..."
