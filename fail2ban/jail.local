@@ -1,6 +1,6 @@
 [DEFAULT]
 # Se debe hacer en el jail.conf para aplicar las reglas en el firewall correcto.
-# banaction = ufw ### para uso de Debian, Ubuntu
+banaction = ufw ### para uso de Debian, Ubuntu
 # banaction = firewallcmd-ipset ### para uso de CentOS, Rocky linux, Alma Linux
 #
 # banaction = nftables ### para uso de nftables

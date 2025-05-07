@@ -8,12 +8,14 @@ echo
 #
 #Copiado de Fail2ban
 cp ./fail2ban/* /etc/fail2ban/
+rm -r /etc/fail2ban/jail.d/*
 mv /etc/fail2ban/fail-ubuntu.conf /etc/fail2ban/jail.d/
 echo
 echo "Copiado de JAIL de forma correcta..."
 echo
 #
 #Copiado de Aplicaciones de UFW
+rm -r /etc/ufw/applications.d/*
 cp ./ufw/* /etc/ufw/applications.d/
 echo
 echo "Copiado de Aplicaciones UFW de forma correcta..."
@@ -40,5 +42,7 @@ echo
 #Activacion de log de UFW
 echo
 ufw logging medium
+ufw status enable
+ufw allow "nginx full"
 echo
 echo "Activacion de log de UFW de forma correcta..."
