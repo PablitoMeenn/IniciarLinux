@@ -1,11 +1,15 @@
 [DEFAULT]
-# Se debe hacer en el jail.conf para aplicar las reglas en el firewall correcto.
-banaction = ufw ### para uso de Debian, Ubuntu
-# banaction = firewallcmd-ipset ### para uso de CentOS, Rocky linux, Alma Linux
+# Activar ufw
+banaction = ufw
+banaction_allports = ufw[type=allports]
+backend = systemd
+
+# Activar nftables
+# Para activar el firewall nftables.
+#banaction = nftables
+#banaction_allports = nftables[type=allports]
+#backend = systemd
 #
-# banaction = nftables ### para uso de nftables
-# banaction_allports = nftables[type=allports] ### para uso de nftables
-# backend = systemd ### para uso de nftables
 # MISCELLANEOUS OPTIONS
 #
 # Configuracion de correo.
