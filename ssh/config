@@ -1,0 +1,18 @@
+## Tuneles SSH y Configuraciones
+#-----CASA-----
+Host    unifiMeenn
+Hostname	pablitomeenn.dyndns.org
+User	meenn
+#
+Host	plexMeenn
+Hostname	192.168.254.4
+User	meenn
+#
+#-----IMARED-----
+host	issabelIMARED
+hostname	192.168.0.251
+user	ppavez
+#
+host	librenmsIMARED
+hostname	192.168.0.253
+user	holograma
