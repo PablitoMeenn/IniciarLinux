@@ -24,7 +24,7 @@ echo
 #Copiado de SSH
 cp ./ssh/ssh-servidor.conf /etc/ssh/sshd_config.d/
 cp ./ssh/banner /etc/ssh/
-touch $HOME/.ssh/config
+cp ./ssh/config $HOME/.ssh/config
 chmod 600 $HOME/.ssh/config
 echo
 echo "Copiado configuracion de SSH de forma correcta..."
