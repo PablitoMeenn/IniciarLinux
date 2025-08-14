@@ -45,7 +45,6 @@ echo
 echo
 ufw logging medium
 ufw status enable
-ufw allow iperf3
 ufw allow nginx
 ufw allow openssh
 ufw allow snmp
