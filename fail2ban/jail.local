@@ -16,6 +16,8 @@ backend = systemd
 #destemail = fail2ban@melacorneta.cl
 #sender = meenn@melacorneta.cl
 #
+# Protocol por defecto
+protocol = all
 #
 # permite usar la base de datos para buscar ip's previamente prohibidas para aumentar un
 # tiempo de ban por defecto usando fórmula especial, por defecto es banTime * 1, 2, 4, 8, 16...
