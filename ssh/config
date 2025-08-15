@@ -4,7 +4,7 @@ Host    unifiMeenn
 Hostname	pablitomeenn.dyndns.org
 User	meenn
 #
-Host	plexMeenn
+Host	NoteMeenn
 Hostname	192.168.254.4
 User	meenn
 #

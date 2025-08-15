@@ -14,13 +14,6 @@ echo
 echo "Copiado de JAIL de forma correcta..."
 echo
 #
-#Copiado de Aplicaciones de UFW
-rm -r /etc/ufw/applications.d/*
-cp ./ufw/* /etc/ufw/applications.d/
-echo
-echo "Copiado de Aplicaciones UFW de forma correcta..."
-echo
-#
 #Copiado de SSH
 cp ./ssh/ssh-servidor.conf /etc/ssh/sshd_config.d/
 cp ./ssh/banner /etc/ssh/
@@ -41,13 +34,20 @@ echo
 cp ./home/.bash_aliases $HOME
 echo "Copiado de Alias de forma correcta..."
 echo
+#Copiado de Aplicaciones de UFW
+cp ./ufw/* /etc/ufw/applications.d/
+echo
+echo "Copiado de Aplicaciones UFW de forma correcta..."
+echo
+#
 #Activacion de log de UFW
 echo
 ufw logging medium
-ufw status enable
-ufw allow nginx
+ufw enable
+ufw allow "Nginx HTTPS"
 ufw allow openssh
 ufw allow snmp
 ufw allow samba
+ufw allow Unifi
 echo
 echo "Activacion de log de UFW de forma correcta..."

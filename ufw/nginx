@@ -1,4 +1,0 @@
-[nginx]
-title=Web Server (Nginx, HTTP + HTTPS)
-description=Small, but very powerful and efficient web server
-ports=80,443/tcp
