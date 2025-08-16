@@ -44,7 +44,7 @@ echo
 echo
 ufw logging medium
 ufw enable
-ufw allow "Nginx HTTPS"
+ufw allow "Nginx FULL"
 ufw allow openssh
 ufw allow snmp
 ufw allow samba
