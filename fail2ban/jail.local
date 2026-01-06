@@ -1,9 +1,9 @@
 [DEFAULT]
 # Activar ufw
-banaction = ufw
-banaction_allports = ufw[type=allports]
-backend = systemd
-
+#banaction = ufw
+#banaction_allports = ufw[type=allports]
+#backend = systemd
+######----------- Ver que firewall debo activar -------------######
 # Activar nftables
 # Para activar el firewall nftables.
 #banaction = nftables

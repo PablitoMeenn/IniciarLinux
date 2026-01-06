@@ -1,0 +1,9 @@
+#/etc/fail2ban/jail.d/pbs-conf.local
+[proxmox-backup-server]
+enabled = true
+port = https,http,8007
+filter = proxmox-backup-server
+logpath = /var/log/proxmox-backup/api/auth.log
+maxretry = 3
+findtime = 2d
+bantime = 1h
