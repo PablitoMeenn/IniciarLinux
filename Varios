@@ -1,0 +1,8 @@
+#Tareas programadas
+crontab -e
+
+#Minuto Hora DíaMes Mes DiaSemana Comando
+@reboot mkdir -p 700 /tmp/samba
+
+#historia en .bashrc
+HISTTIMEFORMAT="%F %T: "
