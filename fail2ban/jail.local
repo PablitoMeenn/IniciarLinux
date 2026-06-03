@@ -1,9 +1,14 @@
 [DEFAULT]
+######------Ver que firewall debo activar --######
+######----- Activar usando UFW ----- ######
 # Activar ufw
 #banaction = ufw
 #banaction_allports = ufw[type=allports]
 #backend = systemd
-######----------- Ver que firewall debo activar -------------######
+#
+####### Se debe revisar la jaula primero para poder borar la que esta creada por defecto ####
+#######----- Activar usando nftables ----- ######
+#
 # Activar nftables
 # Para activar el firewall nftables.
 #banaction = nftables
