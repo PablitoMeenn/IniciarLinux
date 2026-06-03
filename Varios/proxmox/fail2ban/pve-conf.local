@@ -1,5 +1,5 @@
 #/etc/fail2ban/jail.d/pve-conf.local
-[proxmox]
+[proxmox-pve]
 enabled = true
 port = https,http,8006
 filter = proxmox

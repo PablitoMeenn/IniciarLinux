@@ -1,5 +1,5 @@
 #/etc/fail2ban/jail.d/pbs-conf.local
-[proxmox-backup-server]
+[proxmox-pbs]
 enabled = true
 port = https,http,8007
 filter = proxmox-backup-server

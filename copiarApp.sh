@@ -24,23 +24,17 @@ echo "Copiado configuracion de SSH de forma correcta..."
 echo
 #
 #Copiando nginx de sitio web
-#rm -r /var/www/html/*
-#cp -r ./nginx/* /var/www/html
-#echo
-#echo "copiado Archivos de html"
-#echo
+rm -r /var/www/html/*
+cp -r ./nginx/* /var/www/html
+echo
+echo "copiado Archivos de html"
+echo
+#
 #Copiado de Alias en Home
 echo
 cp ./home/.bash_aliases $HOME
 echo "Copiado de Alias de forma correcta..."
 echo
-#Copiado de Aplicaciones de UFW
-#cp ./ufw/* /etc/ufw/applications.d/
-#echo
-#echo "Copiado de Aplicaciones UFW de forma correcta..."
-#echo
-#
-#Activacion de log de UFW
 echo
 ufw logging medium
 ufw enable
@@ -48,6 +42,5 @@ ufw enable
 ufw allow openssh
 ufw allow snmp
 ufw allow samba
-#ufw allow Unifi
 echo
 echo "Activacion de log de UFW de forma correcta..."
