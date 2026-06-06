@@ -33,6 +33,7 @@ echo
 #Copiado de Alias en Home
 echo
 cp ./home/.bash_aliases $HOME
+chmod 644 $HOME/.bash_aliases
 echo "Copiado de Alias de forma correcta..."
 echo
 echo

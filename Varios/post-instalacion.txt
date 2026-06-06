@@ -6,3 +6,6 @@ crontab -e
 
 #historia en .bashrc
 HISTTIMEFORMAT="%F %T: "
+
+##### Crear una llave publica en ssh
+ssh-keygen -t ed25519 -C "meenn@MSI"
