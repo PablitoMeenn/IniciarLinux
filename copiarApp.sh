@@ -39,7 +39,7 @@ echo
 echo
 sudo ufw logging medium
 sudo ufw enable
-#sudo ufw allow "Nginx FULL"
+sudo ufw allow "Nginx FULL"
 sudo ufw allow openssh
 sudo ufw allow snmp
 sudo ufw allow samba
