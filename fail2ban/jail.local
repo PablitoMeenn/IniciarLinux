@@ -11,9 +11,9 @@
 #
 # Activar nftables
 # Para activar el firewall nftables.
-#banaction = nftables
-#banaction_allports = nftables[type=allports]
-#backend = systemd
+banaction = nftables
+banaction_allports = nftables[type=allports]
+backend = systemd
 #
 # MISCELLANEOUS OPTIONS
 #
