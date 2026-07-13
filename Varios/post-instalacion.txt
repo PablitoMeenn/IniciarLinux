@@ -2,7 +2,8 @@
 crontab -e
 
 #Minuto Hora DíaMes Mes DiaSemana Comando
-@reboot /usr/bin/mkdir -m 700 /tmp/samba && /usr/bin/chown meenn:nogroup /tmp/samba
+@reboot mkdir -m 770 /tmp/samba && chown meenn:meenn /tmp/samba
+@reboot chmod 444 /sys/devices/virtual/dmi/id/product_serial
 
 #historia en .bashrc
 HISTTIMEFORMAT="%F %T: "
