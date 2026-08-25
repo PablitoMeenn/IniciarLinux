@@ -1,6 +1,6 @@
 # Alias para utilizar o comandos
-alias usarSamba='sudo chmod -R 777 /tmp/samba && ip -br a | grep inet'
-alias abrirSamba='sudo chown -R nobody:ppavezb /tmp/samba && ip -br a | grep inet'
+alias usarsamba='sudo chmod -R 777 /tmp/samba && ip -br a && ls -la /tmp/samba'
+alias abrirsamba='sudo chown -R nobody:meenn /tmp/samba && ip -br a && ls -la /tmp/samba'
 alias liberarSwap='sudo swapoff -a && sudo swapon -a'
 #Montar Unidades de red
 #alias montar-Nofound='sudo mount -t cifs //nas-peliculas/nofound/ /mnt/nofound -o username=nofound,password=PASS-PASS,uid=meenn,gid=meenn,nounix,dir_mode=0770,file_mode=0770,vers=1.0,iocharset=utf8,noperm'

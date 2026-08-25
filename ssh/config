@@ -1,9 +1,5 @@
 ## Tuneles SSH y Configuraciones
 #-----CASA-----
-Host    unifiMeenn
-Hostname	pfsense.meenn.cl
-User	meenn
-#
 Host	NoteMeenn
 Hostname	192.168.254.4
 User	meenn

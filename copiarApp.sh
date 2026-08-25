@@ -14,6 +14,12 @@ echo
 echo "Copiado de JAIL de forma correcta..."
 echo
 #
+#Copiado de UFW
+sudo cp ./ufw/applications.d/* /etc/ufw/applications.d/
+echo
+echo "Copiado de aplicaciones UFW de forma correcta..."
+echo
+#
 #Copiado de SSH
 sudo cp ./ssh/ssh-servidor.conf /etc/ssh/sshd_config.d/
 sudo cp ./ssh/banner /etc/ssh/
