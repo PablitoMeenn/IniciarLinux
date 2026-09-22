@@ -2,6 +2,8 @@
 #
 #Copiado de SNMP
 sudo cp ./snmpd/* /etc/snmp/snmpd.conf.d/
+sudo curl -o /usr/bin/distro https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro
+sudo chmod +x /usr/bin/distro
 echo
 echo "Copiado de SNMP de forma correcta..."
 echo
