@@ -1,9 +1,8 @@
 #!/bin/bash
-#description    : Muestra el estado de Fail2Ban y las IPs baneadas actualmente
-#author         : Adaptado para fail2ban moderno (usa fail2ban-client)
-#depencias      : fail2ban (sudo apt-get install fail2ban)
-#==============================================================================
-
+#description : Muestra el estado de Fail2Ban y las IPs baneadas
+#depencias   : fail2ban (sudo apt-get install fail2ban)
+#==============================================================
+#
 # Configuración
 MAX_ENTRIES=10   # Máximo de IPs a mostrar por jail (0 = sin límite)
 

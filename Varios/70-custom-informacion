@@ -1,4 +1,6 @@
 #!/bin/sh
+#description : Muestra informacion del servidor
+#==============================================
 echo ""
 echo "=========================================="
 echo "Hostname: $(hostname)"
