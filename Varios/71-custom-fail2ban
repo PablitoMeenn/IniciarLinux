@@ -1,0 +1,70 @@
+#!/bin/bash
+#description    : Muestra el estado de Fail2Ban y las IPs baneadas actualmente
+#author         : Adaptado para fail2ban moderno (usa fail2ban-client)
+#depencias      : fail2ban (sudo apt-get install fail2ban)
+#==============================================================================
+
+# Configuración
+MAX_ENTRIES=10   # Máximo de IPs a mostrar por jail (0 = sin límite)
+
+FAIL2BAN_CLIENT=$(command -v fail2ban-client)
+
+# Si fail2ban no está instalado o el servicio no responde, salir silenciosamente
+if [ -z "$FAIL2BAN_CLIENT" ]; then
+    exit 0
+fi
+
+if ! sudo fail2ban-client ping > /dev/null 2>&1; then
+    exit 0
+fi
+
+echo -e "\033[1;33mFail2Ban \033[1;32mEstado Actual\033[0m"
+
+JAILS=$(sudo fail2ban-client status | grep "Jail list" | sed -E 's/^[^:]+:[ \t]+//' | tr ',' '\n' | sed 's/^ *//;s/ *$//')
+
+if [ -z "$JAILS" ]; then
+    echo -e "\t\033[0mNo hay jails configurados\033[0m"
+    exit 0
+fi
+
+total_baneados_global=0
+
+for jail in $JAILS; do
+    STATUS=$(sudo fail2ban-client status "$jail")
+
+    currently=$(echo "$STATUS" | grep "Currently banned" | awk -F: '{print $2}' | tr -d ' ')
+    total=$(echo "$STATUS" | grep "Total banned" | awk -F: '{print $2}' | tr -d ' ')
+    ip_list=$(echo "$STATUS" | grep "Banned IP list" | sed -E 's/^[^:]+:[ \t]*//')
+
+    currently=${currently:-0}
+    total=${total:-0}
+    total_baneados_global=$((total_baneados_global + currently))
+
+    if [ "$currently" -gt "0" ]; then
+        color="\033[1;31m"   # rojo si hay baneados activos
+    else
+        color="\033[1;32m"   # verde si no hay ninguno
+    fi
+
+    echo -en "\t${color}${jail}\033[0m: activos ahora: ${color}${currently}\033[0m | total histórico: ${total}\n"
+
+    if [ -n "$ip_list" ] && [ "$currently" -gt "0" ]; then
+        count=0
+        for ip in $ip_list; do
+            echo -e "\t\t\033[0;36m- $ip\033[0m"
+            count=$((count + 1))
+            if [ "$MAX_ENTRIES" -gt "0" ] && [ "$count" -ge "$MAX_ENTRIES" ]; then
+                remaining=$(echo "$ip_list" | wc -w)
+                remaining=$((remaining - MAX_ENTRIES))
+                if [ "$remaining" -gt "0" ]; then
+                    echo -e "\t\t\033[0;90m... y $remaining más\033[0m"
+                fi
+                break
+            fi
+        done
+    fi
+done
+
+if [ "$total_baneados_global" -eq "0" ]; then
+    echo -e "\t\033[1;32mSin IPs baneadas actualmente\033[0m"
+fi

@@ -1,0 +1,9 @@
+#!/bin/sh
+echo ""
+echo "=========================================="
+echo "Hostname: $(hostname)"
+echo "IP local: $(hostname -I | awk '{print $1}')"
+echo "Uptime: $(uptime -p)"
+echo "Usuarios conectados: $(who | wc -l)"
+echo "=========================================="
+echo ""

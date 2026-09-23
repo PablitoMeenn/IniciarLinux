@@ -53,3 +53,11 @@ sudo ufw allow snmp
 sudo ufw allow samba
 echo
 echo "Activacion de log de UFW de forma correcta..."
+#
+# agregar informacion al pront de inicio de SSH
+sudo cp ./Varios/70-custom-info /etc/update-motd.d/70-custom-informacion
+sudo cp ./Varios/71-custom-fail2ban /etc/update-motd.d/71-custom-fail2ban
+sudo chmod +x /etc/update-motd.d/70-custom-informacion
+sudo chmod +x /etc/update-motd.d/71-custom-fail2ban
+echo
+echo "Agregado de informacion al pront de inicio de SSH de forma correcta..."

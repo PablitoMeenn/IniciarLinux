@@ -5,7 +5,7 @@ echo "Actualizando lista de paquetes..."
 sudo apt update
 #
 # Instalar los programas
-sudo apt install -y vim git htop bpytop fail2ban snmpd ufw openssh-server curl mtr samba cifs-utils cmatrix nginx 
+sudo apt install -y btop cifs-utils cmatrix curl fail2ban git mtr nginx openssh-server samba snmpd ufw vim
 #
 echo "Limpieza de paquetes innecesarios..."
 sudo apt autoremove -y
