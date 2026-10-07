@@ -182,6 +182,7 @@ if [[ $choice == 1 ]]; then
 		"${SUDO[@]}" ufw allow "Nginx Full"
 		"${SUDO[@]}" ufw allow snmp
 		"${SUDO[@]}" ufw allow samba
+		"${SUDO[@]}" ufw allow qBittorrent
 		"${SUDO[@]}" ufw enable
 	else
 		# firewalld: activa el servicio, agrega las reglas permanentes y recarga la configuración.
