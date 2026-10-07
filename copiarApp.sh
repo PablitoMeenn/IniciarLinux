@@ -15,7 +15,6 @@ case "${ID:-}" in
 		FIREWALL=ufw
 		FIREWALL_COMMAND=ufw
 		WEB_ROOT=/var/www/html
-		SAMBA_GROUP=nogroup
 		;;
 	fedora)
 		DISTRO_NAME=Fedora
@@ -23,7 +22,6 @@ case "${ID:-}" in
 		FIREWALL=firewalld
 		FIREWALL_COMMAND=firewall-cmd
 		WEB_ROOT=/usr/share/nginx/html
-		SAMBA_GROUP=nobody
 		;;
 	manjaro)
 		DISTRO_NAME=Manjaro
@@ -31,7 +29,6 @@ case "${ID:-}" in
 		FIREWALL=ufw
 		FIREWALL_COMMAND=ufw
 		WEB_ROOT=/usr/share/nginx/html
-		SAMBA_GROUP=nobody
 		;;
 	*)
 		printf 'Distribución no compatible: %s. Sistemas admitidos: Ubuntu, Fedora y Manjaro.\n' "${PRETTY_NAME:-desconocida}" >&2
@@ -122,13 +119,22 @@ if ! "${SUDO[@]}" sshd -t; then
 	exit 1
 fi
 
-# Samba: adapta el grupo compartido y agrega el fragmento sin reemplazar smb.conf existente.
+# Samba: crea la cuenta y el directorio compartido, y agrega el fragmento sin reemplazar smb.conf.
 SAMBA_CONFIG=/etc/samba/smb.conf
 SAMBA_FRAGMENT=/etc/samba/smb.conf.d/iniciarlinux.conf
-temp_samba=$(mktemp)
-sed "s/force group = nogroup/force group = $SAMBA_GROUP/" samba/smb.conf > "$temp_samba"
-install_system_file "$temp_samba" "$SAMBA_FRAGMENT" 0644
-rm -f "$temp_samba"
+SAMBA_USER=Carpeta
+SAMBA_SHARE_PATH=/tmp/directorio-samba
+SAMBA_PASSWORD=Samba
+if ! getent passwd "$SAMBA_USER" >/dev/null; then
+	"${SUDO[@]}" useradd --system --no-create-home --shell /usr/sbin/nologin "$SAMBA_USER"
+fi
+"${SUDO[@]}" install -d -o "$SAMBA_USER" -g "$(id -gn "$SAMBA_USER")" -m 0700 "$SAMBA_SHARE_PATH"
+if "${SUDO[@]}" pdbedit -L | cut -d: -f1 | grep -Fqx "$SAMBA_USER"; then
+	printf '%s\n%s\n' "$SAMBA_PASSWORD" "$SAMBA_PASSWORD" | "${SUDO[@]}" smbpasswd -s "$SAMBA_USER"
+else
+	printf '%s\n%s\n' "$SAMBA_PASSWORD" "$SAMBA_PASSWORD" | "${SUDO[@]}" smbpasswd -s -a "$SAMBA_USER"
+fi
+install_system_file samba/smb.conf "$SAMBA_FRAGMENT" 0644
 if "${SUDO[@]}" test -e "$SAMBA_CONFIG"; then
 	if ! "${SUDO[@]}" grep -Fqx "include = $SAMBA_FRAGMENT" "$SAMBA_CONFIG"; then
 		"${SUDO[@]}" sed -i "/^\[global\]/a include = $SAMBA_FRAGMENT" "$SAMBA_CONFIG"
@@ -178,7 +184,7 @@ if [[ $choice == 1 ]]; then
 	if [[ $FIREWALL == ufw ]]; then
 		# UFW: configura SSH, web, Samba, SNMP y qBittorrent antes de activarlo.
 		"${SUDO[@]}" ufw logging medium
-		"${SUDO[@]}" ufw allow OpenSSH ||
+		"${SUDO[@]}" ufw allow OpenSSH
 		"${SUDO[@]}" ufw allow "Nginx Full"
 		"${SUDO[@]}" ufw allow snmp
 		"${SUDO[@]}" ufw allow samba
