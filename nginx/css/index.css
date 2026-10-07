@@ -32,6 +32,38 @@
      border-radius: 8px;
      
 }
+
+/*Estilos de datos economico.*/
+.economic-indicators-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 0 24px;
+    margin: 0;
+    padding: 0;
+}
+
+.economic-indicator {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 16px;
+    min-height: 48px;
+    padding: 12px 0;
+    border-bottom: 1px solid #d5dce3;
+}
+
+.economic-indicator dt {
+    color: #344054;
+}
+
+.economic-indicator dd {
+    margin: 0;
+    color: #176b47;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
 /*Estilos de cuenta regresiva.*/
 .countdown-container {
     display: flex;

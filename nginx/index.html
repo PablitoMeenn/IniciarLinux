@@ -80,6 +80,67 @@ fetch('http://ip-api.com/json')
 });
 </script>
 
+<h2>Datos Economicos</h2>
+<div id="economic-indicators" aria-live="polite" aria-busy="true">
+	<p>Cargando indicadores económicos...</p>
+</div>
+<script>
+const economicIndicatorNames = [
+	['uf', 'UF'],
+	['dolar', 'Dólar observado'],
+	['dolar_intercambio', 'Dólar acuerdo'],
+	['euro', 'Euro'],
+	['ipc', 'IPC'],
+	['utm', 'UTM'],
+	['ivp', 'IVP'],
+	['imacec', 'Imacec']
+];
+const economicIndicatorFormatter = new Intl.NumberFormat('es-CL', {
+	maximumFractionDigits: 2
+});
+
+fetch('https://mindicador.cl/api')
+	.then(response => {
+		if (!response.ok) {
+			throw new Error(`La API respondió con estado ${response.status}`);
+		}
+		return response.json();
+	})
+	.then(data => {
+		const indicatorList = document.createElement('dl');
+		indicatorList.className = 'economic-indicators-list';
+
+		for (const [key, name] of economicIndicatorNames) {
+			const indicator = data[key];
+			const row = document.createElement('div');
+			row.className = 'economic-indicator';
+
+			const label = document.createElement('dt');
+			label.textContent = name;
+			const value = document.createElement('dd');
+			if (indicator && Number.isFinite(indicator.valor)) {
+				const unit = indicator.unidad_medida ? ` ${indicator.unidad_medida}` : '';
+				value.textContent = `${economicIndicatorFormatter.format(indicator.valor)}${unit}`;
+			} else {
+				value.textContent = 'No disponible';
+			}
+
+			row.append(label, value);
+			indicatorList.append(row);
+		}
+
+		const container = document.getElementById('economic-indicators');
+		container.replaceChildren(indicatorList);
+		container.setAttribute('aria-busy', 'false');
+	})
+	.catch(error => {
+		console.error('Error al consultar los indicadores económicos:', error);
+		const container = document.getElementById('economic-indicators');
+		container.textContent = 'No se pudieron cargar los indicadores económicos.';
+		container.setAttribute('aria-busy', 'false');
+	});
+</script>
+
 
 <h2>Monitoreo de bloqueo Fail2ban</h2>
 <div class="abuse">
