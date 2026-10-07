@@ -15,9 +15,9 @@ PKGS_FEDORA=(btop cifs-utils cmatrix curl fail2ban git mtr nginx openssh-server 
 PKGS_MANJARO=(btop cifs-utils cmatrix curl fail2ban git mtr nginx openssh samba net-snmp ufw vim)
 
 # ---------- Servicios por distribución ----------
-SRV_UBUNTU=(ssh nginx fail2ban smbd nmbd snmpd)
-SRV_FEDORA=(sshd nginx fail2ban smb nmb snmpd)
-SRV_MANJARO=(sshd nginx fail2ban smb nmb snmpd)
+SRV_UBUNTU=(nginx fail2ban smbd nmbd snmpd)
+SRV_FEDORA=(nginx fail2ban smb nmb snmpd)
+SRV_MANJARO=(nginx fail2ban smb nmb snmpd)
 
 # ---------- Variables globales ----------
 NOMBRE_SO="desconocido"
@@ -72,16 +72,15 @@ habilitar_servicios() {
     done
 }
 
-# ufw (Ubuntu / Manjaro): se permite SSH ANTES de activarlo para no perder acceso remoto
+# ufw (Ubuntu / Manjaro): SSH se configura desde copiarApp.sh
 configurar_ufw() {
     info "Configurando ufw..."
-    sudo ufw allow 22/tcp >/dev/null
     sudo ufw --force enable >/dev/null
     sudo systemctl enable --now ufw >/dev/null 2>&1
-    ok "ufw activo (SSH permitido en 22/tcp)"
+    ok "ufw activo"
 }
 
-# firewalld (Fedora): retira ufw si existía y deja SSH permitido
+# firewalld (Fedora): retira ufw si existía; SSH se configura desde copiarApp.sh
 configurar_firewalld() {
     if rpm -q ufw >/dev/null 2>&1; then
         info "Retirando ufw (Fedora usará firewalld)..."
@@ -90,9 +89,7 @@ configurar_firewalld() {
     fi
     info "Configurando firewalld..."
     sudo systemctl enable --now firewalld >/dev/null 2>&1
-    sudo firewall-cmd --permanent --add-service=ssh >/dev/null
-    sudo firewall-cmd --reload >/dev/null
-    ok "firewalld activo (SSH permitido)"
+    ok "firewalld activo"
 }
 
 # ---------- Instaladores ----------

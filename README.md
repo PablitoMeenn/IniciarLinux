@@ -20,7 +20,7 @@ chmod +x instalarApp.sh copiarApp.sh
 
 El instalador detecta la distribución, muestra los paquetes compatibles y propone el perfil recomendado. También permite elegir paquetes individualmente y pide confirmación antes de instalar. Para aplicar todo el conjunto de configuraciones, utiliza el perfil recomendado; el copiado requiere que el servidor OpenSSH y el firewall de la distribución estén instalados.
 
-El segundo script recomienda UFW en Ubuntu y Manjaro, y firewalld en Fedora. Puedes elegir no cambiar el firewall. Si lo activas, se permiten SSH, web, Samba, SNMP y el puerto TCP 47379 de qBittorrent. Comprueba esas reglas antes de confirmar, especialmente si el equipo está expuesto a Internet o lo administras remotamente.
+El segundo script recomienda UFW en Ubuntu y Manjaro, y firewalld en Fedora. Puedes elegir no cambiar el firewall. Si aplicas las reglas, se permiten SSH, web, Samba, SNMP y el puerto TCP 47379 de qBittorrent; además, se habilita e inicia el servicio SSH. Comprueba las reglas antes de confirmar, especialmente si el equipo está expuesto a Internet o lo administras remotamente.
 
 Los archivos de configuración del proyecto se escriben directamente en sus destinos. El contenido web se copia sin borrar otros archivos del directorio del sitio, y las configuraciones Samba y Fail2ban se agregan sin vaciar las configuraciones existentes.
 
@@ -37,4 +37,4 @@ En Fedora, firewalld es el firewall nativo y no se instala UFW. Los nombres de p
 
 ## Después de copiar
 
-El script valida la configuración de SSH, pero no habilita ni inicia automáticamente los servicios. Revisa los archivos y el estado con `systemctl status` antes de habilitar los servicios que necesites. Conserva una sesión de administración abierta al probar SSH o firewall para evitar perder acceso.
+El script valida la configuración de SSH. Si eliges aplicar las reglas del firewall, también habilita e inicia el servicio SSH; con la opción de no modificar el firewall, no lo inicia. Revisa los archivos y el estado con `systemctl status`. Conserva una sesión de administración abierta al probar SSH o firewall para evitar perder acceso.
