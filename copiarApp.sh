@@ -138,6 +138,10 @@ else
 fi
 
 # Nginx: copia archivos y subdirectorios al directorio web de la distribución sin borrar otros archivos.
+if [[ ! -f nginx/index.html ]]; then
+	echo "No se encontró nginx/index.html; no se modificará el sitio web instalado." >&2
+	exit 1
+fi
 "${SUDO[@]}" install -d -m 0755 "$WEB_ROOT"
 for web_file in nginx/*; do
 	if [[ -d $web_file ]]; then
@@ -150,6 +154,8 @@ for web_file in nginx/*; do
 		install_system_file "$web_file" "$WEB_ROOT/$(basename "$web_file")" 0644
 	fi
 done
+# Ubuntu instala esta página alternativa; eliminarla para que solo quede el index.html del proyecto.
+"${SUDO[@]}" rm -f -- "$WEB_ROOT/index.nginx-debian.html"
 
 # Usuario: instala la configuración SSH del cliente y los alias de Bash en el HOME actual.
 install -d -m 0700 "$HOME/.ssh"
@@ -164,8 +170,8 @@ else
 	MOTD_DIR=/etc/profile.d
 	MOTD_SUFFIX=.sh
 fi
-install_system_file Varios/70-custom-info "$MOTD_DIR/70-custom-info$MOTD_SUFFIX" 0755
-install_system_file Varios/71-custom-fail2ban "$MOTD_DIR/71-custom-fail2ban$MOTD_SUFFIX" 0755
+install_system_file MOTD/70-custom-info "$MOTD_DIR/70-custom-info$MOTD_SUFFIX" 0755
+install_system_file MOTD/71-custom-fail2ban "$MOTD_DIR/71-custom-fail2ban$MOTD_SUFFIX" 0755
 
 # Firewall: solo se modifica al elegir la opción 1; se permiten los servicios y puertos del proyecto.
 if [[ $choice == 1 ]]; then
@@ -173,7 +179,7 @@ if [[ $choice == 1 ]]; then
 		# UFW: configura SSH, web, Samba, SNMP y qBittorrent antes de activarlo.
 		"${SUDO[@]}" ufw logging medium
 		"${SUDO[@]}" ufw allow OpenSSH ||
-		"${SUDO[@]}" ufw allow "Nginx FULL"
+		"${SUDO[@]}" ufw allow "Nginx Full"
 		"${SUDO[@]}" ufw allow snmp
 		"${SUDO[@]}" ufw allow samba
 		"${SUDO[@]}" ufw enable
