@@ -7,6 +7,13 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 cd "$SCRIPT_DIR"
 source /etc/os-release
 
+# Colores y mensajes con el mismo estilo que instalarApp.sh.
+VERDE="\e[32m"; AMARILLO="\e[33m"; ROJO="\e[31m"; AZUL="\e[34m"; NEGRITA="\e[1m"; RESET="\e[0m"
+info()  { echo -e "${AZUL}==>${RESET} $*"; }
+ok()    { echo -e "${VERDE}✔${RESET} $*"; }
+warn()  { echo -e "${AMARILLO}⚠${RESET} $*" >&2; }
+error() { echo -e "${ROJO}✘${RESET} $*" >&2; }
+
 # Selecciona nombres de servicios y rutas que cambian según la distribución.
 case "${ID:-}" in
 	ubuntu)
@@ -31,7 +38,7 @@ case "${ID:-}" in
 		WEB_ROOT=/usr/share/nginx/html
 		;;
 	*)
-		printf 'Distribución no compatible: %s. Sistemas admitidos: Ubuntu, Fedora y Manjaro.\n' "${PRETTY_NAME:-desconocida}" >&2
+		error "Distribución no compatible: ${PRETTY_NAME:-desconocida}. Sistemas admitidos: Ubuntu, Fedora y Manjaro."
 		exit 1
 		;;
 esac
@@ -42,28 +49,30 @@ if [[ $EUID -eq 0 ]]; then
 elif command -v sudo >/dev/null 2>&1; then
 	SUDO=(sudo)
 else
-	echo "Se necesita sudo para copiar configuraciones del sistema." >&2
+	error "Se necesita sudo para copiar configuraciones del sistema."
 	exit 1
 fi
 
 # Permite aplicar las configuraciones junto con el firewall o copiar sin modificarlo.
-echo "Sistema detectado: ${PRETTY_NAME:-$DISTRO_NAME}"
-echo "Firewall recomendado: $FIREWALL"
-echo "1) Aplicar configuraciones y activar el firewall recomendado"
-echo "2) Aplicar configuraciones sin modificar el firewall"
+echo -e "\n${NEGRITA}Copiar configuraciones${RESET}"
+echo -e "Sistema detectado: ${VERDE}${PRETTY_NAME:-$DISTRO_NAME}${RESET}"
+echo -e "Firewall recomendado: ${VERDE}${FIREWALL}${RESET}\n"
+echo -e "  ${VERDE}1) Aplicar configuraciones y activar el firewall recomendado  (recomendado)${RESET}"
+echo -e "  ${AMARILLO}2) Aplicar configuraciones sin modificar el firewall${RESET}"
+echo
 read -r -p "Selecciona una opción [1]: " choice
 choice=${choice:-1}
 if [[ $choice != 1 && $choice != 2 ]]; then
-	echo "Opción no válida; no se harán cambios." >&2
+	error "Opción no válida; no se harán cambios."
 	exit 1
 fi
 if [[ $choice == 1 ]] && ! command -v "$FIREWALL_COMMAND" >/dev/null 2>&1; then
-	echo "No está instalado $FIREWALL. Ejecuta primero instalarApp.sh o elige no modificar el firewall." >&2
+	error "No está instalado $FIREWALL. Ejecuta primero instalarApp.sh o elige no modificar el firewall."
 	exit 1
 fi
 # SSH debe estar instalado para validar la configuración del servidor que se copia.
 if ! command -v sshd >/dev/null 2>&1; then
-	echo "No se encontró sshd. Instala primero el servidor OpenSSH antes de copiar configuraciones." >&2
+	error "No se encontró sshd. Instala primero el servidor OpenSSH antes de copiar configuraciones."
 	exit 1
 fi
 
@@ -82,6 +91,7 @@ install_user_file() {
 	install -D -m "$mode" -- "$source_file" "$destination"
 }
 
+info "Copiando configuración de SNMP..."
 # SNMP: instala la configuración del proyecto como fragmento y activa su directorio de inclusión.
 install_system_file snmpd/snmp-servidor.conf /etc/snmp/snmpd.conf.d/snmp-server.conf 0644
 "${SUDO[@]}" install -d -m 0755 /etc/snmp/snmpd.conf.d
@@ -93,10 +103,11 @@ temp_distro=$(mktemp)
 if curl -fLsS --retry 2 -o "$temp_distro" https://raw.githubusercontent.com/librenms/librenms-agent/master/snmp/distro; then
 	"${SUDO[@]}" install -D -m 0755 "$temp_distro" /usr/bin/distro
 else
-	echo "Aviso: no se pudo descargar /usr/bin/distro; la extensión SNMP distro no funcionará." >&2
+	warn "No se pudo descargar /usr/bin/distro; la extensión SNMP distro no funcionará."
 fi
 rm -f "$temp_distro"
 
+info "Copiando configuración de Fail2ban..."
 # Fail2ban: instala las reglas y adapta el nombre de la unidad SSH a la distribución.
 install_system_file fail2ban/fail2ban.local /etc/fail2ban/fail2ban.local 0644
 install_system_file fail2ban/jail.local /etc/fail2ban/jail.local 0644
@@ -110,15 +121,17 @@ if [[ $FIREWALL == ufw ]]; then
 	install_system_file ufw/applications.d/qBittorrent /etc/ufw/applications.d/qBittorrent 0644
 fi
 
+info "Copiando configuración de SSH..."
 # SSH: copia la configuración del servidor y el banner, y comprueba que sshd pueda leerla.
 install_system_file ssh/ssh-servidor.conf /etc/ssh/sshd_config.d/00-iniciarlinux.conf 0644
 install_system_file ssh/banner /etc/ssh/banner 0644
 if ! "${SUDO[@]}" sshd -t; then
-	echo "La configuración de SSH no es válida; se retirará el fragmento agregado." >&2
+	error "La configuración de SSH no es válida; se retirará el fragmento agregado."
 	"${SUDO[@]}" rm -f /etc/ssh/sshd_config.d/00-iniciarlinux.conf
 	exit 1
 fi
 
+info "Configurando Samba..."
 # Samba: crea la cuenta y el directorio compartido, y agrega el fragmento sin reemplazar smb.conf.
 SAMBA_CONFIG=/etc/samba/smb.conf
 SAMBA_FRAGMENT=/etc/samba/smb.conf.d/iniciarlinux.conf
@@ -143,9 +156,10 @@ else
 	printf '[global]\ninclude = %s\n' "$SAMBA_FRAGMENT" | "${SUDO[@]}" tee "$SAMBA_CONFIG" >/dev/null
 fi
 
+info "Copiando sitio web de Nginx..."
 # Nginx: copia archivos y subdirectorios al directorio web de la distribución sin borrar otros archivos.
 if [[ ! -f nginx/index.html ]]; then
-	echo "No se encontró nginx/index.html; no se modificará el sitio web instalado." >&2
+	error "No se encontró nginx/index.html; no se modificará el sitio web instalado."
 	exit 1
 fi
 "${SUDO[@]}" install -d -m 0755 "$WEB_ROOT"
@@ -163,11 +177,13 @@ done
 # Ubuntu instala esta página alternativa; eliminarla para que solo quede el index.html del proyecto.
 "${SUDO[@]}" rm -f -- "$WEB_ROOT/index.nginx-debian.html"
 
+info "Copiando configuración del usuario..."
 # Usuario: instala la configuración SSH del cliente y los alias de Bash en el HOME actual.
 install -d -m 0700 "$HOME/.ssh"
 install_user_file ssh/config "$HOME/.ssh/config" 0600
 install_user_file home/.bash_aliases "$HOME/.bash_aliases" 0644
 
+info "Copiando mensajes de inicio (MOTD)..."
 # Mensajes de inicio: Ubuntu usa update-motd.d; otros sistemas usan profile.d.
 if [[ -d /etc/update-motd.d ]]; then
 	MOTD_DIR=/etc/update-motd.d
@@ -181,6 +197,7 @@ install_system_file MOTD/71-custom-fail2ban "$MOTD_DIR/71-custom-fail2ban$MOTD_S
 
 # Firewall: solo se modifica al elegir la opción 1; se permiten los servicios y puertos del proyecto.
 if [[ $choice == 1 ]]; then
+	info "Configurando firewall $FIREWALL..."
 	if [[ $FIREWALL == ufw ]]; then
 		# UFW: configura SSH, web, Samba, SNMP y qBittorrent antes de activarlo.
 		"${SUDO[@]}" ufw logging medium
@@ -205,4 +222,5 @@ if [[ $choice == 1 ]]; then
 fi
 
 # Indica que terminó la copia; no implica que se hayan iniciado los demás servicios.
-echo "Configuraciones copiadas en $DISTRO_NAME."
+echo
+ok "Configuraciones copiadas en $DISTRO_NAME."
