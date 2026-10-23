@@ -134,7 +134,7 @@ fi
 info "Configurando Samba..."
 # Samba: crea la cuenta y el directorio compartido, y agrega el fragmento sin reemplazar smb.conf.
 SAMBA_CONFIG=/etc/samba/smb.conf
-SAMBA_FRAGMENT=/etc/samba/smb.conf.d/iniciarlinux.conf
+SAMBA_FRAGMENT=/etc/samba/smb.conf.d/smb-local.conf
 SAMBA_USER=Carpeta
 SAMBA_SHARE_PATH=/tmp/directorio-samba
 SAMBA_PASSWORD=Samba
@@ -157,7 +157,7 @@ else
 fi
 
 info "Copiando sitio web de Nginx..."
-# Nginx: copia archivos y subdirectorios al directorio web de la distribución sin borrar otros archivos.
+# Nginx: copia archivos y subdirectorios al directorio web.
 if [[ ! -f nginx/index.html ]]; then
 	error "No se encontró nginx/index.html; no se modificará el sitio web instalado."
 	exit 1
