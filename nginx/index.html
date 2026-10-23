@@ -14,6 +14,7 @@
 
 <body>
 
+	<!-- Encabezado animado: cada letra usa las reglas .bounce y .letter de css/style.css. -->
 	<div class="bounce">
 		<span class="letter">H</span>
 		<span class="letter">o</span>
@@ -27,6 +28,7 @@
 	  </div>
 	
 
+  <!-- Presentación principal: .titulo y .parrafo están definidos en css/index.css. -->
   <h1 class="titulo">Bienvenido a nginx!</h1>
   <div>
   <p class="parrafo">Si ve esta página, el servidor web nginx se instaló correctamente y funciona. Estas conectado a mi Notebook y vez mi sitio web de Prueba usando nginx.</p>
@@ -34,6 +36,7 @@
 
 
 
+<!-- Información de IP: el contenido se carga desde JavaScript dentro de #ip-info. -->
 <h2>Información de tu IP</h2>
 <div id="ip-info">
 	<p>Calmado... esta Cargando información... </p>
@@ -80,6 +83,7 @@ fetch('http://ip-api.com/json')
 });
 </script>
 
+<!-- Indicadores económicos: JavaScript genera la lista y css/index.css define .economic-indicators-list y .economic-indicator. -->
 <h2>Datos Economicos</h2>
 <div id="economic-indicators" aria-live="polite" aria-busy="true">
 	<p>Cargando indicadores económicos...</p>
@@ -142,14 +146,16 @@ fetch('https://mindicador.cl/api')
 </script>
 
 
+<!-- Insignia de monitoreo Fail2ban provista por AbuseIPDB; .abuse en css/index.css da estilo al contenedor. -->
 <h2>Monitoreo de bloqueo Fail2ban</h2>
 <div class="abuse">
 <a href="https://www.abuseipdb.com/user/91919" title="AbuseIPDB is an IP address blacklist for webmasters">
 	<img src="https://www.abuseipdb.com/contributor/91919.svg">
 </a>
 </div>
+
+<!-- Cuenta regresiva: los valores se actualizan con JavaScript y se presentan con las clases countdown-* de css/index.css. -->
 <h2>Dias que faltan para mi cumpleaños</h2>
-<!--Contador de cuenta regresiva-->
 <div class="countdown-container">
 	<div class="countdown">
 		<div class="countdown-item">
@@ -170,7 +176,8 @@ fetch('https://mindicador.cl/api')
 		</div>
 	</div>
 </div>
-<!--Script de cuenta regresiva-->
+
+<!-- Actualiza el contador cada segundo y muestra un mensaje al llegar a la fecha objetivo. -->
 <script>
 	function updateCountdown() {
 		const targetDate = new Date('05 26, 2027 00:00:00').getTime();

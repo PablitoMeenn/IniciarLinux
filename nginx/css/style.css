@@ -1,3 +1,4 @@
+/* Logotipo "Holograma" de index.html: centra y distribuye sus letras animadas. */
 .bounce {
   display: -webkit-box;
   display: flex;
@@ -11,6 +12,7 @@
   white-space: nowrap;
 }
 
+/* Estilo y animación compartidos por cada letra del logotipo. */
 .letter {
   -webkit-animation: bounce 0.95s cubic-bezier(0.05, 0, 0.2, 1) infinite alternate;
           animation: bounce 0.95s cubic-bezier(0.05, 0, 0.2, 1) infinite alternate;
@@ -21,6 +23,8 @@
   text-shadow: rgba(0, 0, 0, 0.4) 0 0 0.05em;
   font: normal bold 6rem "Product Sans", sans-serif;
 }
+
+/* Retraso escalonado y color individual para cada letra del logotipo. */
 .letter:nth-child(1) {
   -webkit-animation-delay: 0s;
           animation-delay: 0s;
@@ -67,6 +71,7 @@
   color: #646aa5;
 }
 
+/* Movimiento vertical y sombra de rebote de las letras; incluye prefijo para WebKit. */
 @-webkit-keyframes bounce {
   0% {
     -webkit-transform: translate3d(0, 0, 0);
