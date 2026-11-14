@@ -10,7 +10,7 @@ VERDE="\e[32m"; AMARILLO="\e[33m"; ROJO="\e[31m"; AZUL="\e[34m"; NEGRITA="\e[1m"
 
 # ---------- Paquetes por distribución ----------
 # Fedora usa firewalld (viene por defecto), por eso no se instala ufw.
-PKGS_UBUNTU=(btop cifs-utils cmatrix curl fail2ban git mtr nginx openssh-server samba snmpd ufw vim)
+PKGS_UBUNTU=(btop cifs-utils cmatrix curl fail2ban git mtr-tiny nginx openssh-server samba snmpd ufw vim)
 PKGS_FEDORA=(btop cifs-utils cmatrix curl fail2ban git mtr nginx openssh-server samba net-snmp firewalld vim)
 PKGS_MANJARO=(btop cifs-utils cmatrix curl fail2ban git mtr nginx openssh samba net-snmp ufw vim)
 

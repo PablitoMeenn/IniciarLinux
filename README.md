@@ -117,7 +117,7 @@ Los archivos de configuración del proyecto se escriben directamente en sus dest
 
 | Herramienta | Ubuntu | Fedora | Manjaro |
 | --- | --- | --- | --- |
-| Monitoreo y utilidades | `btop`, `cmatrix`, `mtr`, `vim` | `btop`, `cmatrix`, `mtr`, `vim` | `btop`, `cmatrix`, `mtr`, `vim` |
+| Monitoreo y utilidades | `btop`, `cmatrix`, `mtr-tiny`, `vim` | `btop`, `cmatrix`, `mtr`, `vim` | `btop`, `cmatrix`, `mtr`, `vim` |
 | Red y archivos compartidos | `cifs-utils`, `curl`, `git` | `cifs-utils`, `curl`, `git` | `cifs-utils`, `curl`, `git` |
 | Servicios | `fail2ban`, `nginx`, `openssh-server`, `samba`, `snmpd` | `fail2ban`, `nginx`, `openssh-server`, `samba`, `net-snmp` | `fail2ban`, `nginx`, `openssh`, `samba`, `net-snmp` |
 | Firewall recomendado | `ufw` | `firewalld` | `ufw` |
