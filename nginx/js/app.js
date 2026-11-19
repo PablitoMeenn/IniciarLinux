@@ -271,7 +271,43 @@ function startCountdown() {
 	setInterval(tick, 1000);
 }
 
+/* ---------- Fondo de partículas ---------- */
+// Usa particles.js (js/vendor/particles.min.js). Si el archivo no cargó, la página sigue igual.
+function startParticles() {
+	if (typeof window.particlesJS !== 'function') return;
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const isSmall = window.innerWidth < 700;
+
+	window.particlesJS('particles-js', {
+		particles: {
+			number: { value: isSmall ? 35 : 80, density: { enable: true, value_area: 900 } },
+			// Mismos colores del logotipo "Holograma".
+			color: { value: ['#4285f4', '#ea4335', '#fbbc05', '#34a853', '#a855f7'] },
+			shape: { type: 'circle' },
+			opacity: { value: 0.6, random: true },
+			size: { value: 3, random: true },
+			line_linked: { enable: true, distance: 140, color: '#60a5fa', opacity: 0.25, width: 1 },
+			move: { enable: !reduceMotion, speed: 1.6, direction: 'none', random: false, straight: false, out_mode: 'out' },
+		},
+		interactivity: {
+			// 'window' porque el lienzo está detrás de las tarjetas y no recibe el mouse directamente.
+			detect_on: 'window',
+			events: {
+				onhover: { enable: !isSmall, mode: 'grab' },
+				onclick: { enable: true, mode: 'push' },
+				resize: true,
+			},
+			modes: {
+				grab: { distance: 160, line_linked: { opacity: 0.6 } },
+				push: { particles_nb: 3 },
+			},
+		},
+		retina_detect: true,
+	});
+}
+
 /* ---------- Inicio ---------- */
+startParticles();
 $('year').textContent = new Date().getFullYear();
 startClock();
 startCountdown();

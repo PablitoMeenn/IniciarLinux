@@ -35,6 +35,18 @@ body {
 
 a { color: var(--accent); }
 
+/* Fondo de partículas: lienzo fijo detrás de todo el contenido. */
+#particles-js {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+}
+
+.hero, .grid, .footer {
+    position: relative;
+    z-index: 1;
+}
+
 .muted { color: var(--muted); margin: 0 0 1rem; }
 
 /* ---------- Encabezado ---------- */

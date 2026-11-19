@@ -9,10 +9,15 @@
 	<title>NGINX by HOLOGRAMA</title>
 	<link rel="icon" href="icono.ico" type="image/x-icon">
 	<link rel="stylesheet" href="css/index.css">
+	<!-- particles.js v2.0.0 (MIT, github.com/VincentGarreau/particles.js), copia local para no depender de internet. -->
+	<script src="js/vendor/particles.min.js" defer></script>
 	<script src="js/app.js" defer></script>
 </head>
 
 <body>
+	<!-- Fondo animado de partículas: js/app.js lo inicializa (ver startParticles). -->
+	<div id="particles-js" aria-hidden="true"></div>
+
 	<header class="hero">
 		<!-- Logotipo animado: cada letra rebota con un retraso escalonado (ver .letter en css/index.css). -->
 		<h1 class="logo" aria-label="Holograma">
