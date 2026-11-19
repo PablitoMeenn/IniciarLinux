@@ -157,23 +157,19 @@ else
 fi
 
 info "Copiando sitio web de Nginx..."
-# Nginx: copia archivos y subdirectorios al directorio web.
+# Nginx: copia archivos y subdirectorios (a cualquier profundidad, p. ej. js/vendor) al directorio web.
 if [[ ! -f nginx/index.html ]]; then
 	error "No se encontró nginx/index.html; no se modificará el sitio web instalado."
 	exit 1
 fi
-"${SUDO[@]}" install -d -m 0755 "$WEB_ROOT"
-for web_file in nginx/*; do
-	if [[ -d $web_file ]]; then
-		"${SUDO[@]}" install -d -m 0755 "$WEB_ROOT/$(basename "$web_file")"
-		while IFS= read -r -d '' nested_file; do
-			destination="$WEB_ROOT/${nested_file#nginx/}"
-			install_system_file "$nested_file" "$destination" 0644
-		done < <(find "$web_file" -type f -print0)
-	else
-		install_system_file "$web_file" "$WEB_ROOT/$(basename "$web_file")" 0644
-	fi
-done
+# Crea cada carpeta con 0755 de forma explícita: install -D usaría el umask y, si es restrictivo
+# (p. ej. 077), nginx no podría leer subcarpetas como js/vendor.
+while IFS= read -r -d '' web_dir; do
+	"${SUDO[@]}" install -d -m 0755 "$WEB_ROOT/$web_dir"
+done < <(find nginx -type d -printf '%P\0')
+while IFS= read -r -d '' web_file; do
+	install_system_file "nginx/$web_file" "$WEB_ROOT/$web_file" 0644
+done < <(find nginx -type f -printf '%P\0')
 # Ubuntu instala esta página alternativa; eliminarla para que solo quede el index.html del proyecto.
 "${SUDO[@]}" rm -f -- "$WEB_ROOT/index.nginx-debian.html"
 
