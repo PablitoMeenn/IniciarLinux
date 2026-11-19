@@ -1,211 +1,93 @@
 <!DOCTYPE html>
 <html lang="es">
- <head>
-	<link rel="icon" href="icono.ico" type="image/x-icon">
-   	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Sitio de prueba de nginx en el notebook de Holograma.">
+	<meta name="color-scheme" content="dark">
+	<meta name="theme-color" content="#0b1020">
 	<title>NGINX by HOLOGRAMA</title>
+	<link rel="icon" href="icono.ico" type="image/x-icon">
 	<link rel="stylesheet" href="css/index.css">
-	<link rel="stylesheet" href="css/style.css"/>
-
-
+	<script src="js/app.js" defer></script>
 </head>
 
 <body>
+	<header class="hero">
+		<!-- Logotipo animado: cada letra rebota con un retraso escalonado (ver .letter en css/index.css). -->
+		<h1 class="logo" aria-label="Holograma">
+			<span class="letter" aria-hidden="true">H</span><span class="letter" aria-hidden="true">o</span><span class="letter" aria-hidden="true">l</span><span class="letter" aria-hidden="true">o</span><span class="letter" aria-hidden="true">g</span><span class="letter" aria-hidden="true">r</span><span class="letter" aria-hidden="true">a</span><span class="letter" aria-hidden="true">m</span><span class="letter" aria-hidden="true">a</span>
+		</h1>
+		<p class="hero-title">¡Bienvenido a nginx!</p>
+		<p class="hero-text">Si ves esta página, el servidor web nginx está instalado y funcionando. Estás conectado a mi notebook y ves mi sitio web de prueba.</p>
 
-	<!-- Encabezado animado: cada letra usa las reglas .bounce y .letter de css/style.css. -->
-	<div class="bounce">
-		<span class="letter">H</span>
-		<span class="letter">o</span>
-		<span class="letter">l</span>
-		<span class="letter">o</span>
-		<span class="letter">g</span>
-		<span class="letter">r</span>
-		<span class="letter">a</span>
-		<span class="letter">m</span>
-		<span class="letter">a</span>
-	  </div>
-	
-
-  <!-- Presentación principal: .titulo y .parrafo están definidos en css/index.css. -->
-  <h1 class="titulo">Bienvenido a nginx!</h1>
-  <div>
-  <p class="parrafo">Si ve esta página, el servidor web nginx se instaló correctamente y funciona. Estas conectado a mi Notebook y vez mi sitio web de Prueba usando nginx.</p>
-  </div>
-
-
-
-<!-- Información de IP: el contenido se carga desde JavaScript dentro de #ip-info. -->
-<h2>Información de tu IP</h2>
-<div id="ip-info">
-	<p>Calmado... esta Cargando información... </p>
-</div>
-
-<script>
-// Hacer una solicitud a la API para obtener la información de la IP
-fetch('http://ip-api.com/json')
-.then(response => response.json())
-.then(data => {
-	// Mostrar la información de la IP en el sitio web
-	const infoDiv = document.getElementById('ip-info');
-	infoDiv.innerHTML = `
-	<ul>
-		<li>IP: ${data.query}</li>
-		<li>Estado: ${data.status}</li>
-		<li>Continente: ${data.continent}</li>
-		<li>Código del Continente: ${data.continentCode}</li>
-		<li>País: ${data.country}</li>
-		<li>Código del País: ${data.countryCode}</li>
-		<li>Región: ${data.regionName}</li>
-		<li>Código de la Región: ${data.region}</li>
-		<li>Ciudad: ${data.city}</li>
-		<li>Distrito: ${data.district}</li>
-		<li>Código Postal: ${data.zip}</li>
-		<li>Latitud: ${data.lat}</li>
-		<li>Longitud: ${data.lon}</li>
-		<li>Zona Horaria: ${data.timezone}</li>
-		<li>Diferencia Horaria (UTC): ${data.offset}</li>
-		<li>Moneda: ${data.currency}</li>
-		<li>ISP: ${data.isp}</li>
-		<li>Organización: ${data.org}</li>
-		<li>Sistema Autónomo: ${data.as}</li>
-		<li>Nombre del Sistema Autónomo: ${data.asname}</li>
-		<li>Móvil: ${data.mobile ? 'Sí' : 'No'}</li>
-		<li>Proxy: ${data.proxy ? 'Sí' : 'No'}</li>
-		<li>Hosting: ${data.hosting ? 'Sí' : 'No'}</li>
-	</ul>
-		`;
-})
-.catch(error => {
-	console.error('Error al obtener la información de la IP:', error);
-	document.getElementById('ip-info').textContent = 'Error, no Cargo Nada.';
-});
-</script>
-
-<!-- Indicadores económicos: JavaScript genera la lista y css/index.css define .economic-indicators-list y .economic-indicator. -->
-<h2>Datos Economicos</h2>
-<div id="economic-indicators" aria-live="polite" aria-busy="true">
-	<p>Cargando indicadores económicos...</p>
-</div>
-<script>
-const economicIndicatorNames = [
-	['uf', 'UF'],
-	['dolar', 'Dólar observado'],
-	['dolar_intercambio', 'Dólar acuerdo'],
-	['euro', 'Euro'],
-	['ipc', 'IPC'],
-	['utm', 'UTM'],
-	['ivp', 'IVP'],
-	['imacec', 'Imacec']
-];
-const economicIndicatorFormatter = new Intl.NumberFormat('es-CL', {
-	maximumFractionDigits: 2
-});
-
-fetch('https://mindicador.cl/api')
-	.then(response => {
-		if (!response.ok) {
-			throw new Error(`La API respondió con estado ${response.status}`);
-		}
-		return response.json();
-	})
-	.then(data => {
-		const indicatorList = document.createElement('dl');
-		indicatorList.className = 'economic-indicators-list';
-
-		for (const [key, name] of economicIndicatorNames) {
-			const indicator = data[key];
-			const row = document.createElement('div');
-			row.className = 'economic-indicator';
-
-			const label = document.createElement('dt');
-			label.textContent = name;
-			const value = document.createElement('dd');
-			if (indicator && Number.isFinite(indicator.valor)) {
-				const unit = indicator.unidad_medida ? ` ${indicator.unidad_medida}` : '';
-				value.textContent = `${economicIndicatorFormatter.format(indicator.valor)}${unit}`;
-			} else {
-				value.textContent = 'No disponible';
-			}
-
-			row.append(label, value);
-			indicatorList.append(row);
-		}
-
-		const container = document.getElementById('economic-indicators');
-		container.replaceChildren(indicatorList);
-		container.setAttribute('aria-busy', 'false');
-	})
-	.catch(error => {
-		console.error('Error al consultar los indicadores económicos:', error);
-		const container = document.getElementById('economic-indicators');
-		container.textContent = 'No se pudieron cargar los indicadores económicos.';
-		container.setAttribute('aria-busy', 'false');
-	});
-</script>
-
-
-<!-- Insignia de monitoreo Fail2ban provista por AbuseIPDB; .abuse en css/index.css da estilo al contenedor. -->
-<h2>Monitoreo de bloqueo Fail2ban</h2>
-<div class="abuse">
-<a href="https://www.abuseipdb.com/user/91919" title="AbuseIPDB is an IP address blacklist for webmasters">
-	<img src="https://www.abuseipdb.com/contributor/91919.svg">
-</a>
-</div>
-
-<!-- Cuenta regresiva: los valores se actualizan con JavaScript y se presentan con las clases countdown-* de css/index.css. -->
-<h2>Dias que faltan para mi cumpleaños</h2>
-<div class="countdown-container">
-	<div class="countdown">
-		<div class="countdown-item">
-			<span id="days" class="countdown-value">00</span>
-			<span class="countdown-label">Días</span>
+		<!-- Estado del servidor: js/app.js mide la latencia y lee la cabecera Server de nginx. -->
+		<div class="status" id="server-status" aria-live="polite">
+			<span class="status-dot" id="status-dot"></span>
+			<span id="status-text">Comprobando servidor…</span>
 		</div>
-		<div class="countdown-item">
-			<span id="hours" class="countdown-value">00</span>
-			<span class="countdown-label">Horas</span>
+		<dl class="status-details">
+			<div><dt>Host</dt><dd id="srv-host">—</dd></div>
+			<div><dt>Protocolo</dt><dd id="srv-protocol">—</dd></div>
+			<div><dt>Servidor</dt><dd id="srv-software">—</dd></div>
+			<div><dt>Latencia</dt><dd id="srv-latency">—</dd></div>
+			<div><dt>Hora local</dt><dd id="srv-clock">—</dd></div>
+		</dl>
+	</header>
+
+	<main class="grid">
+		<!-- Información de IP del visitante. -->
+		<section class="card card-wide" aria-labelledby="ip-title">
+			<div class="card-head">
+				<h2 id="ip-title">Tu conexión</h2>
+				<span class="chip" id="ip-source"></span>
+			</div>
+			<div id="ip-info" aria-live="polite" aria-busy="true">
+				<p class="muted">Cargando información de tu IP…</p>
+			</div>
+		</section>
+
+		<!-- Indicadores económicos de Chile (mindicador.cl). -->
+		<section class="card" aria-labelledby="eco-title">
+			<div class="card-head">
+				<h2 id="eco-title">Indicadores económicos</h2>
+				<span class="chip" id="eco-date"></span>
+			</div>
+			<div id="economic-indicators" aria-live="polite" aria-busy="true">
+				<p class="muted">Cargando indicadores económicos…</p>
+			</div>
+		</section>
+
+		<div class="stack">
+			<!-- Insignia de AbuseIPDB: muestra los reportes enviados por Fail2ban. -->
+			<section class="card" aria-labelledby="f2b-title">
+				<div class="card-head">
+					<h2 id="f2b-title">Bloqueos Fail2ban</h2>
+				</div>
+				<p class="muted">Las IP que intentan atacar este equipo se bloquean y se reportan a AbuseIPDB.</p>
+				<a class="badge" href="https://www.abuseipdb.com/user/91919" target="_blank" rel="noopener" title="AbuseIPDB es una lista negra de direcciones IP para administradores web">
+					<img src="https://www.abuseipdb.com/contributor/91919.svg" alt="Insignia de contribuyente de AbuseIPDB" width="461" height="66" loading="lazy">
+				</a>
+			</section>
+
+			<!-- Cuenta regresiva: se recalcula sola cada año (ver BIRTHDAY en js/app.js). -->
+			<section class="card" aria-labelledby="cd-title">
+				<div class="card-head">
+					<h2 id="cd-title">Días para mi cumpleaños</h2>
+					<span class="chip" id="cd-date"></span>
+				</div>
+				<div class="countdown" id="countdown">
+					<div class="countdown-item"><span id="days" class="countdown-value">00</span><span class="countdown-label">Días</span></div>
+					<div class="countdown-item"><span id="hours" class="countdown-value">00</span><span class="countdown-label">Horas</span></div>
+					<div class="countdown-item"><span id="minutes" class="countdown-value">00</span><span class="countdown-label">Min</span></div>
+					<div class="countdown-item"><span id="seconds" class="countdown-value">00</span><span class="countdown-label">Seg</span></div>
+				</div>
+			</section>
 		</div>
-		<div class="countdown-item">
-			<span id="minutes" class="countdown-value">00</span>
-			<span class="countdown-label">Minutos</span>
-		</div>
-		<div class="countdown-item">
-			<span id="seconds" class="countdown-value">00</span>
-			<span class="countdown-label">Segundos</span>
-		</div>
-	</div>
-</div>
+	</main>
 
-<!-- Actualiza el contador cada segundo y muestra un mensaje al llegar a la fecha objetivo. -->
-<script>
-	function updateCountdown() {
-		const targetDate = new Date('05 26, 2027 00:00:00').getTime();
-		
-		function update() {
-			const now = new Date().getTime();
-			const difference = targetDate - now;
-
-			const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-			const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-			const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-			const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-			document.getElementById('days').textContent = days.toString().padStart(2, '0');
-			document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-			document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-			document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-
-			if (difference < 0) {
-				clearInterval(interval);
-				document.querySelector('.countdown').innerHTML = '<h2 style="color: white;">¡Tiempo cumplido!</h2>';
-			}
-		}
-
-		const interval = setInterval(update, 1000);
-		update();
-	}
-	document.addEventListener('DOMContentLoaded', updateCountdown);
-</script>
+	<footer class="footer">
+		Servido con nginx · <span id="year"></span> Holograma
+	</footer>
 </body>
 </html>

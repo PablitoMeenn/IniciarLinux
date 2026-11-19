@@ -1,134 +1,289 @@
-/* Presentación principal del HTML: .titulo resalta el encabezado y .parrafo centra el texto de bienvenida. */
-.titulo{
-    text-align: center;
-    text-decoration: underline;
-    text-transform: uppercase;
-    background-color: blueviolet;
+/* Paleta y medidas compartidas por todo el sitio. */
+:root {
+    --bg: #0b1020;
+    --bg-glow-1: rgba(66, 133, 244, 0.22);
+    --bg-glow-2: rgba(168, 85, 247, 0.18);
+    --card: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text: #e6e9f2;
+    --muted: #9aa3b8;
+    --accent: #60a5fa;
+    --ok: #34d399;
+    --warn: #fbbf24;
+    --err: #f87171;
+    --radius: 16px;
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Ubuntu Mono", Menlo, Consolas, monospace;
 }
 
-/* Estilos auxiliares para listas y elementos destacados si se usan en el HTML. */
-.lista{
-    color: blue;
-}
-.once{
-    color: blueviolet;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-/* Texto de bienvenida asociado al párrafo con clase .parrafo en index.html. */
-.parrafo{
-    color: blue;
-    font-size:larger;
-    font-weight: bold;
-    font-style: italic;
-    text-align: center;
-    line-height: normal;
-    letter-spacing: normal;
-}
+html { -webkit-text-size-adjust: 100%; }
 
-/* Caja decorativa auxiliar; se aplica a elementos que tengan la clase .elborde. */
-.elborde {
-     background-color: blueviolet;
-     width: 180px;
-     height: 40px;
-     margin: auto;
-     text-align: center;
-     border-width: 5px;
-     border-color: brown;
-     border-style: dashed;
-     border-radius: 8px;
-     
-}
-
-/* Indicadores económicos: JavaScript crea estas clases dentro de #economic-indicators en index.html. */
-.economic-indicators-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-    gap: 0 24px;
+body {
     margin: 0;
-    padding: 0;
+    min-height: 100vh;
+    font-family: var(--font);
+    line-height: 1.5;
+    color: var(--text);
+    background:
+        radial-gradient(1200px 600px at 10% -10%, var(--bg-glow-1), transparent 60%),
+        radial-gradient(900px 500px at 100% 0%, var(--bg-glow-2), transparent 60%),
+        var(--bg);
+    background-attachment: fixed;
 }
 
-/* Una fila por indicador: nombre a la izquierda y valor alineado a la derecha. */
-.economic-indicator {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: baseline;
-    gap: 16px;
-    min-height: 48px;
-    padding: 12px 0;
-    border-bottom: 1px solid #d5dce3;
+a { color: var(--accent); }
+
+.muted { color: var(--muted); margin: 0 0 1rem; }
+
+/* ---------- Encabezado ---------- */
+.hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: clamp(2rem, 6vw, 4rem) 1rem 1.5rem;
+    text-align: center;
 }
 
-/* Nombre y valor de cada indicador económico. */
-.economic-indicator dt {
-    color: #344054;
-}
-
-.economic-indicator dd {
-    margin: 0;
-    color: #176b47;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-}
-
-/* Cuenta regresiva de index.html: centra el bloque y establece su tipografía. */
-.countdown-container {
+/* Logotipo "Holograma": letras que rebotan con color y retraso individual. */
+.logo {
     display: flex;
     justify-content: center;
+    margin: 0;
+    padding-top: 0.9em;               /* espacio para el rebote */
+    font: 800 clamp(2.6rem, 11vw, 6rem)/1 var(--font);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+}
+
+.letter {
+    display: inline-block;
+    animation: bounce 0.95s cubic-bezier(0.05, 0, 0.2, 1) infinite alternate;
+    text-shadow: rgba(0, 0, 0, 0.4) 0 0 0.05em;
+}
+
+.letter:nth-child(1) { color: #4285f4; animation-delay: 0s; }
+.letter:nth-child(2) { color: #ea4335; animation-delay: 0.083s; }
+.letter:nth-child(3) { color: #fbbc05; animation-delay: 0.167s; }
+.letter:nth-child(4) { color: #4285f4; animation-delay: 0.25s; }
+.letter:nth-child(5) { color: #34a853; animation-delay: 0.333s; }
+.letter:nth-child(6) { color: #c7e0d2; animation-delay: 0.417s; }
+.letter:nth-child(7) { color: #c4a7b3; animation-delay: 0.457s; }
+.letter:nth-child(8) { color: #7fb08f; animation-delay: 0.491s; }
+.letter:nth-child(9) { color: #8b91d6; animation-delay: 0.542s; }
+
+@keyframes bounce {
+    from { transform: translate3d(0, 0, 0);     text-shadow: rgba(0, 0, 0, 0.4) 0 0 0.05em; }
+    to   { transform: translate3d(0, -0.8em, 0); text-shadow: rgba(0, 0, 0, 0.4) 0 0.8em 0.35em; }
+}
+
+.hero-title {
+    margin: 1.5rem 0 0.5rem;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: linear-gradient(90deg, #60a5fa, #a855f7);
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+}
+
+.hero-text {
+    max-width: 640px;
+    margin: 0 auto 1.5rem;
+    color: var(--muted);
+    font-size: 1.05rem;
+}
+
+/* Indicador "En línea" y datos del servidor. */
+.status {
+    display: inline-flex;
     align-items: center;
-    min-height: 10vh;
-    font-family: Arial, sans-serif;
+    gap: 0.6rem;
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    background: var(--card);
+    font-weight: 600;
 }
 
-/* Panel coloreado que agrupa días, horas, minutos y segundos. */
-.countdown {
+.status-dot {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    background: var(--warn);
+}
+
+.status.is-ok .status-dot  { background: var(--ok); box-shadow: 0 0 0 0 var(--ok); animation: pulse 2s infinite; }
+.status.is-err .status-dot { background: var(--err); }
+
+@keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+}
+
+.status-details {
     display: flex;
-    gap: 2rem;
-    background: linear-gradient(45deg, #2193b0, #6dd5ed);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1.75rem;
+    margin: 1.25rem 0 0;
+    font-size: 0.9rem;
 }
 
-/* Columna individual de la cuenta regresiva. */
+.status-details dt { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.status-details dd { margin: 0; font-family: var(--mono); overflow-wrap: anywhere; }
+
+/* ---------- Tarjetas ---------- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+    align-items: start;
+    gap: 1.25rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.card-wide { grid-column: 1 / -1; }
+
+.stack { display: grid; gap: 1.25rem; align-content: start; }
+
+.card {
+    min-width: 0;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    background: var(--card);
+    -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+}
+
+.card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.card h2 { margin: 0; font-size: 1.15rem; }
+
+.chip {
+    font-size: 0.75rem;
+    color: var(--muted);
+    padding: 0.15rem 0.6rem;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+}
+.chip:empty { display: none; }
+
+/* ---------- IP ---------- */
+.ip-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.ip-address {
+    font-family: var(--mono);
+    font-size: clamp(1.4rem, 5vw, 2rem);
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.ip-place { color: var(--muted); font-size: 1.05rem; }
+
+.ip-flags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+.ip-flags .chip.on { color: var(--warn); border-color: var(--warn); }
+
+.kv-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 0 1.5rem;
+    margin: 0;
+}
+
+.kv {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.kv dt { color: var(--muted); flex-shrink: 0; }
+.kv dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+
+.error { color: var(--err); margin: 0; }
+
+/* ---------- Indicadores económicos ---------- */
+.kv.eco dd { color: var(--ok); font-weight: 700; }
+
+/* ---------- Fail2ban ---------- */
+.badge {
+    display: block;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background: #fff;
+}
+.badge img { display: block; width: 100%; height: auto; }
+
+/* ---------- Cuenta regresiva ---------- */
+.countdown {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem;
+}
+
 .countdown-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 100px;
+    padding: 0.9rem 0.25rem;
+    border-radius: 12px;
+    background: linear-gradient(160deg, rgba(33, 147, 176, 0.55), rgba(109, 213, 237, 0.25));
+    border: 1px solid rgba(109, 213, 237, 0.3);
 }
 
-/* Número que JavaScript actualiza en cada unidad de tiempo. */
 .countdown-value {
-    font-size: 3.5rem;
-    font-weight: bold;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    font-family: var(--mono);
+    font-size: clamp(1.6rem, 6vw, 2.4rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
 }
 
-/* Etiqueta de cada número: Días, Horas, Minutos o Segundos. */
 .countdown-label {
-    font-size: 1rem;
-    color: #ffffff;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    margin-top: 0.5rem;
-    letter-spacing: 1px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
 }
 
-/* Insignia de AbuseIPDB incluida en la sección de monitoreo de index.html. */
-.abuse{
-    width: 461px;
-	border-radius: 5px;
-	border-top: 5px solid #058403;
-	border-right: 5px solid #111;
-	border-bottom: 5px solid #111;
-	border-left: 5px solid #058403;
-	padding: 5px;
-	background: #35c246 linear-gradient(rgba(255,255,255,0),
-                                        rgba(255,255,255,.3) 50%,
-                                        rgba(0,0,0,.2) 54%,
-                                        rgba(0,0,0,0));
-	padding: 5px;
-    box-shadow: 2px 2px 1px 1px rgba(0,0,0,.2);
+.countdown-done {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+/* ---------- Pie ---------- */
+.footer {
+    padding: 2rem 1rem 2.5rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* Respeta a quienes prefieren menos animación. */
+@media (prefers-reduced-motion: reduce) {
+    .letter, .status.is-ok .status-dot { animation: none; }
 }
