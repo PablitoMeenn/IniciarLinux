@@ -178,6 +178,16 @@ info "Copiando configuración del usuario..."
 install -d -m 0700 "$HOME/.ssh"
 install_user_file ssh/config "$HOME/.ssh/config" 0600
 install_user_file home/.bash_aliases "$HOME/.bash_aliases" 0644
+# Historial: agrega la fecha y hora a cada comando, bajo HISTSIZE/HISTFILESIZE, sin tocar esos valores.
+touch "$HOME/.bashrc"
+if ! grep -q '^HISTTIMEFORMAT=' "$HOME/.bashrc"; then
+	if grep -q '^HISTFILESIZE=' "$HOME/.bashrc"; then
+		sed -i '/^HISTFILESIZE=/a HISTTIMEFORMAT="%F %T: "' "$HOME/.bashrc"
+	else
+		# Fedora y Manjaro no traen HISTSIZE/HISTFILESIZE en .bashrc; se agrega al final.
+		printf '\nHISTTIMEFORMAT="%%F %%T: "\n' >> "$HOME/.bashrc"
+	fi
+fi
 
 info "Copiando mensajes de inicio (MOTD)..."
 # Mensajes de inicio: Ubuntu usa update-motd.d; otros sistemas usan profile.d.
