@@ -52,6 +52,7 @@
 ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
 ![Vim](https://img.shields.io/badge/Vim-019733?style=flat-square&logo=vim&logoColor=white)
 ![curl](https://img.shields.io/badge/curl-073551?style=flat-square&logo=curl&logoColor=white)
+![fastfetch](https://img.shields.io/badge/fastfetch-info%20del%20equipo-6E40C9?style=flat-square)
 ![btop](https://img.shields.io/badge/btop-monitoreo-6E40C9?style=flat-square)
 ![mtr](https://img.shields.io/badge/mtr-red-6E40C9?style=flat-square)
 ![cmatrix](https://img.shields.io/badge/cmatrix-terminal-6E40C9?style=flat-square)
@@ -117,12 +118,14 @@ Los archivos de configuración del proyecto se escriben directamente en sus dest
 
 | Herramienta | Ubuntu | Fedora | Manjaro |
 | --- | --- | --- | --- |
-| Monitoreo y utilidades | `btop`, `cmatrix`, `mtr-tiny`, `vim` | `btop`, `cmatrix`, `mtr`, `vim` | `btop`, `cmatrix`, `mtr`, `vim` |
+| Monitoreo y utilidades | `btop`, `cmatrix`, `fastfetch`\*, `mtr-tiny`, `vim` | `btop`, `cmatrix`, `fastfetch`, `mtr`, `vim` | `btop`, `cmatrix`, `fastfetch`, `mtr`, `vim` |
 | Red y archivos compartidos | `cifs-utils`, `curl`, `git` | `cifs-utils`, `curl`, `git` | `cifs-utils`, `curl`, `git` |
 | Servicios | `fail2ban`, `nginx`, `openssh-server`, `samba`, `snmpd` | `fail2ban`, `nginx`, `openssh-server`, `samba`, `net-snmp` | `fail2ban`, `nginx`, `openssh`, `samba`, `net-snmp` |
 | Firewall recomendado | `ufw` | `firewalld` | `ufw` |
 
 En Fedora, firewalld es el firewall nativo y no se instala UFW. Los nombres de paquetes pueden variar si se utilizan repositorios o versiones no estándar.
+
+\* En Ubuntu, `fastfetch` se instala aparte porque no está en los repositorios de Ubuntu 24.04 LTS. Si no está disponible, el instalador continúa y muestra cómo agregarlo desde el PPA oficial del proyecto.
 
 ## 🔥 Firewall
 
@@ -159,6 +162,8 @@ IniciarLinux/
 ## 🔍 Después de copiar
 
 El script valida la configuración de SSH con `sshd -t` y, si no es válida, retira el fragmento agregado. Si eliges aplicar las reglas del firewall, también habilita e inicia el servicio SSH; con la opción de no modificar el firewall, no lo inicia. Revisa los archivos y el estado con `systemctl status`.
+
+Al terminar, el script ejecuta `fastfetch` para mostrar las características del equipo (sistema, kernel, CPU, memoria, discos, etc.).
 
 > [!TIP]
 > Conserva una sesión de administración abierta al probar SSH o firewall para evitar perder acceso.

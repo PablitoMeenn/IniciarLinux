@@ -11,8 +11,8 @@ VERDE="\e[32m"; AMARILLO="\e[33m"; ROJO="\e[31m"; AZUL="\e[34m"; NEGRITA="\e[1m"
 # ---------- Paquetes por distribución ----------
 # Fedora usa firewalld (viene por defecto), por eso no se instala ufw.
 PKGS_UBUNTU=(btop cifs-utils cmatrix curl fail2ban git mtr-tiny nginx openssh-server samba snmpd ufw vim)
-PKGS_FEDORA=(btop cifs-utils cmatrix curl fail2ban git mtr nginx openssh-server samba net-snmp firewalld vim)
-PKGS_MANJARO=(btop cifs-utils cmatrix curl fail2ban git mtr nginx openssh samba net-snmp ufw vim)
+PKGS_FEDORA=(btop cifs-utils cmatrix curl fail2ban fastfetch git mtr nginx openssh-server samba net-snmp firewalld vim)
+PKGS_MANJARO=(btop cifs-utils cmatrix curl fail2ban fastfetch git mtr nginx openssh samba net-snmp ufw vim)
 
 # ---------- Servicios por distribución ----------
 SRV_UBUNTU=(nginx fail2ban smbd nmbd snmpd)
@@ -99,6 +99,13 @@ instalar_ubuntu() {
     sudo apt update
     info "Instalando programas..."
     sudo apt install -y "${PKGS_UBUNTU[@]}" || { error "Falló la instalación."; exit 1; }
+    # fastfetch no está en los repositorios de Ubuntu 24.04 LTS: se instala aparte para no detener el resto.
+    if sudo apt install -y fastfetch; then
+        ok "fastfetch instalado"
+    else
+        warn "fastfetch no está disponible en los repositorios de esta versión de Ubuntu."
+        warn "Puedes instalarlo con: sudo add-apt-repository ppa:zhangsongcui3371/fastfetch && sudo apt install fastfetch"
+    fi
     info "Limpieza de paquetes innecesarios..."
     sudo apt autoremove -y
 

@@ -220,3 +220,11 @@ fi
 # Indica que terminó la copia; no implica que se hayan iniciado los demás servicios.
 echo
 ok "Configuraciones copiadas en $DISTRO_NAME."
+
+# Muestra las características del equipo al terminar, si fastfetch está instalado.
+if command -v fastfetch >/dev/null 2>&1; then
+	echo
+	fastfetch
+else
+	warn "fastfetch no está instalado; ejecuta instalarApp.sh para ver el resumen del equipo."
+fi
